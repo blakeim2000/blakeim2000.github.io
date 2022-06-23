@@ -34,8 +34,6 @@ function restart() {
     buildDeck();
     shuffleDeck();
     startGame();
-    document.getElementById("dealer-sum").innerText = dealerSum;
-    document.getElementById("your-sum").innerText = yourSum;
     document.getElementById("results").innerText = message;
     document.getElementById("buttonAppear").innerHTML = "";
 }
@@ -102,8 +100,8 @@ function startGame() {
         yourAceCount += checkAce(card);
         document.getElementById("your-cards").append(cardImg);
     }
-    document.getElementById("your-sum").innerText = yourSum;
-    document.getElementById("dealer-sum").innerText = dealerSum;
+    document.getElementById("your-sum").innerText = reduceAce(yourSum, yourAceCount);
+    document.getElementById("dealer-sum").innerText = reduceAce(dealerSum, dealerAceCount);
 
     console.log(yourSum);
     document.getElementById("hit").addEventListener("click", hit);
