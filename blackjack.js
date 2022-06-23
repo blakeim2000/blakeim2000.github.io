@@ -122,7 +122,7 @@ function hit() {
     yourSum += getValue(card);
     yourAceCount += checkAce(card);
     document.getElementById("your-cards").append(cardImg);
-    document.getElementById("your-sum").innerText = yourSum;
+    document.getElementById("your-sum").innerText = reduceAce(yourSum, yourAceCount);
 
     if (reduceAce(yourSum, yourAceCount) > 21) { //A, J, 8 -> 1 + 10 + 8
         endgame()
@@ -145,7 +145,7 @@ function stay() {
         return;
     }
 
-    while (dealerSum < 17) {
+    while (reduceAce(dealerSum, dealerAceCount) < 17) {
         //<img src="./cards/4-C.png">
         let cardImg = document.createElement("img");
         let card = deck.pop();
