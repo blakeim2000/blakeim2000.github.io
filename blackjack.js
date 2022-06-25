@@ -31,11 +31,11 @@ function restart() {
     message = "";
     canHit = true;
     canStay = true;
+    document.getElementById("results").innerText = message;
+    document.getElementById("buttonAppear").innerHTML = "";
     buildDeck();
     shuffleDeck();
     startGame();
-    document.getElementById("results").innerText = message;
-    document.getElementById("buttonAppear").innerHTML = "";
 }
 
 
@@ -104,8 +104,17 @@ function startGame() {
     document.getElementById("dealer-sum").innerText = reduceAce(dealerSum, dealerAceCount);
 
     console.log(yourSum);
+
     document.getElementById("hit").addEventListener("click", hit);
     document.getElementById("stay").addEventListener("click", stay);
+
+    if (reduceAce(dealerSum, dealerAceCount) == 21) {
+        endgame();
+    }
+
+    if (reduceAce(yourSum, yourAceCount) == 21) { //A, J, 8 -> 1 + 10 + 8
+        stay();
+    }
 
 }
 
@@ -123,7 +132,11 @@ function hit() {
     document.getElementById("your-sum").innerText = reduceAce(yourSum, yourAceCount);
 
     if (reduceAce(yourSum, yourAceCount) > 21) { //A, J, 8 -> 1 + 10 + 8
-        endgame()
+        endgame();
+    }
+
+    if (reduceAce(yourSum, yourAceCount) == 21) { //A, J, 8 -> 1 + 10 + 8
+        stay();
     }
 
 }
@@ -144,7 +157,6 @@ function stay() {
     }
 
     while (reduceAce(dealerSum, dealerAceCount) < 17) {
-        //<img src="./cards/4-C.png">
         let cardImg = document.createElement("img");
         let card = deck.pop();
         cardImg.src = "./cards/" + card + ".png";
@@ -167,24 +179,20 @@ function endgame() {
     let message = "";
     if (yourSum > 21) {
         message = "You Lose!";
-        lose()
+        lose();
     }
     else if (dealerSum > 21) {
         message = "You win!";
-        win()
+        win();
     }
-    //both you and dealer <= 21
-    else if (yourSum == dealerSum) {
-        message = "You Lose!";
-        lose()
-    }
+
     else if (yourSum > dealerSum) {
         message = "You Win!";
-        win()
+        win();
     }
-    else if (yourSum < dealerSum) {
+    else if (yourSum <= dealerSum) {
         message = "You Lose!";
-        lose()
+        lose();
     }
 
     document.getElementById("dealer-sum").innerText = dealerSum;
